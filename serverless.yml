@@ -1,0 +1,77 @@
+# NOTE: Update this with the SpectrumAPI service name
+# TODO: Read serverless.yml docs
+# TODO: https://serverless.com/framework/docs/providers/aws/guide/intro/
+
+# New service names create new projects in AWS once deployed
+service: invoice-log-api
+
+# Use the serverless-webpack plugin to transpile ES6
+# Using offline to mock & test locally
+# Use warmup to prevent Cold Starts
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-plugin-warmup
+
+# configure plugins declared above
+custom:
+  # Stages are based on what is passed into the CLI when running
+  # serverless commands. Or fallback to settings in provider section.
+  stage: ${opt:stage, self:provider.stage}
+  
+  # Load webpack config
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+  # ServerlessWarmup Configuration
+  # See configuration Options at:
+  # https://github.com/FidelLimited/serverless-plugin-warmup
+  warmup:
+    enabled: true # defaults to false
+    folderName: '_warmup' # Name of folder generated for warmup
+    memorySize: 256
+    events:
+      # Run WarmUp every 720 minutes
+      - schedule: rate(720 minutes) 
+    timeout: 20
+
+  # Load secret environment variables based on the current stage
+  # Fallback to default if it is not in PROD
+  environment: ${file(env.yml):${self:custom.stage}, file(env.yml):default}
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: us-east-1
+
+  # Environment variables made available through process.env
+  environment: 
+    #### EXAMPLES
+    # tableName: ${self:custom.tableName}
+    # stripePrivateKey: ${self:custom.environment.stripePrivateKey}
+
+functions:
+  # Defines an HTTP API endpoint that calls the microServerless function in handler.js
+  # - path: url path is /microServerless
+  # - method: GET request
+  # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
+  #     domain api call
+  # - authorizer: authenticate using an AWS IAM Role
+  displayService:
+    handler: handler.starterService
+    events:
+      - http:
+          path: starterService
+          method: get
+          cors: true
+    # Warmup can be applied to each lambda to override 
+    # settings in custom.warmup block globally.
+    warmup:
+      enabled: true
+
+
+
+
+
