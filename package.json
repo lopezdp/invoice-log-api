@@ -7,11 +7,11 @@
     "lint": "eslint .",
     "test": "jest"
   },
-  "author": "",
-  "license": "GPL-3.0-only",
+  "author": "David P. Lopez",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lopezdp/ServerlessStarterService.git"
+    "url": "https://github.com/lopezdp/invoice-log-api.git"
   },
   "devDependencies": {
     "aws-sdk": "^2.350.0",
