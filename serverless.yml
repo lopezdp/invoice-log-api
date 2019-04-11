@@ -38,7 +38,7 @@ custom:
 
   # Load secret environment variables based on the current stage
   # Fallback to default if it is not in PROD
-  environment: ${file(env.yml):${self:custom.stage}, file(env.yml):default}
+  # environment: ${file(env.yml):${self:custom.stage}, file(env.yml):default}
 
 provider:
   name: aws
