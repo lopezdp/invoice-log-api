@@ -57,7 +57,7 @@ functions:
   # - path: url path is /microServerless
   # - method: GET request
   # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
-  #     domain api calls.
+  #     domain api calls
   # - authorizer: authenticate using an AWS IAM Role
   displayService:
     handler: handler.starterService
