@@ -6,10 +6,9 @@ phases:
     - npm install
   build:
    commands:
-    - /usr/local/lib/node_modules/serverless/bin/serverless deploy --stage cicd | tee deploy.out
+    - serverless deploy --stage cicd | tee deploy.out
   post_build:
    commands:
     - npm test
 
 
-    
