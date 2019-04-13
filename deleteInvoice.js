@@ -11,7 +11,7 @@ import { success, failure } from "./libs/response-lib";
 export async function main(event, context) {
   const params = {
     TableName: process.env.tableName,
-	/* 'Key': this is what will define our partition & sort
+    /* 'Key': this is what will define our partition & sort
      *        key for the item that we have to retrieve
      *
      *    - 'userId': is the IdP identity of the authenticated user
@@ -21,7 +21,7 @@ export async function main(event, context) {
 
     Key: {
       "userId": event.requestContext.identity.cognitoIdentityId,
-      "logId": event.pathParameters.id
+      "invoiceId": event.pathParameters.id
     }
   };
 
