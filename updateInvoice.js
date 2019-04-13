@@ -39,14 +39,27 @@ export async function main(event, context) {
       ":content": data.content || null
     },
     /*
+     * 'ReturnValues' specifies if and how to return our Item's
+     * attributes, where ALL_NEW returns all attributes of the
+     * item after the update.
      *
-     *
-     *
+     * Inspect 'result' to verify the values of the different
+     * applications settings that we configure
      *
     */
-
-
+    ReturnValues: "ALL_NEW"
   };
+
+  try {
+    const result = await test.call("update", params);
+    return success({
+      status: true
+    });
+  } catch ( err ) {
+    return failure({
+      status: false
+    });
+  }
 }
 
 
