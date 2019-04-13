@@ -23,7 +23,25 @@ export async function main(event, context) {
 
 	Key: {
 		"userId"
-	}
+	},
+    /*
+     * 'UpdateExpression' defines the attributes to update
+     *
+     * 'ExpressionAttributeValues' defined the value that
+     *		that we need in UpdateExpression
+     *
+    */
+    UpdateExpression: "SET content = :content, :attachment",
+    ExpressionAttributeValues: {
+      ":attachment": data.attachment || null,
+      ":content": data.content || null
+    },
+  /*
+   *
+   *
+   *
+   *
+  */
 
   };
 }
