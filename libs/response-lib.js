@@ -6,6 +6,8 @@
  *
  */
 
+
+// Need to discuss this in article!!!
 function buildResponse(statusCode, body) {
   return {
     statusCode: statusCode,

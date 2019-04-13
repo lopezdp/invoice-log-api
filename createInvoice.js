@@ -1,5 +1,5 @@
 /*
- * Title: createInvoice.js Serverless + MicroService
+ * Title: createInvoice.js Serverless Lambda
  * Unique Software Development, LLC
  * Author: David P. Lopez
  * April 11, 2019
@@ -30,6 +30,30 @@ export async function main(event, context) {
     // accessing the table defined in the serverless.yml
     // and how data is being stored in db.
     TableName: process.env.invoiceTbl,
+    /*
+     * 'Item': contains the ttributes of the item to create
+     *         In NoSql this is equivalent to a row of data
+     *
+     *    - 'userID': user identities are federated through
+     *                the CognitoIdentity Pool (MUST create),
+     *                and we need to use an identityID as the
+     *                userId of the Authenticated User.
+     *   
+     *    - 'invoiceID': a uuid that is unique to this record
+     *    - 'createdAt': this is the current UNIX timestamp
+     *    - 'description': this is the description of the
+     *                     transaction as entered by the user
+     *                     and parsed from the Request.body
+     *
+     *    - 'amount': this is the amount of the transaction
+     *                as entered by the user and parsed from
+     *                the Request.body also
+     *
+     *    - 'attachment': This any file the user may attach
+     *                    to the record that the system will
+     *                    store in an s3 bucket and parsed
+     *                    from the request.body too
+    */
     Item: {
       // Step5: Discussion on DynamoDB sort key design and
       // how to properly aggregate data in table to
@@ -47,14 +71,15 @@ export async function main(event, context) {
   try {
     // async call to db??????
     // need to implement and test!!!!
-    await test.call();
+    // need a lib to make calls to aws dynamo
+    // to persist data for new invoices created
+    await test.call("put", params);
     return success(params.Item);
   } catch ( err ) {
     return failure({
       status: false
     });
   }
-
 }
 
 
