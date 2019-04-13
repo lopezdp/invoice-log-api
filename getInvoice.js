@@ -24,7 +24,7 @@ export async function main(event, context) {
      *    - 'userId': is the IdP identity of the authenticated user
      *    - 'invoiceId': is the path parameter that we must include
      *                   in the request to this service
-     */
+    */
 
     Key: {
       userId: event.requestContext.identity.cognitoIdentityId,
