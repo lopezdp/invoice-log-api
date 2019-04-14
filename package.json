@@ -1,6 +1,6 @@
 {
   "name": "invoice-log-api",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A Node.js feature + microservice on the Serverless Framework with async/await and unit test support.",
   "main": "handler.js",
   "scripts": {
