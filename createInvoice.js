@@ -38,7 +38,7 @@ export async function main(event, context) {
      *                the CognitoIdentity Pool (MUST create),
      *                and we need to use an identityID as the
      *                userId of the Authenticated User.
-     *   
+     *
      *    - 'invoiceID': a uuid that is unique to this record
      *    - 'createdAt': this is the current UNIX timestamp
      *    - 'description': this is the description of the
