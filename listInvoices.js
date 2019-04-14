@@ -1,6 +1,6 @@
 /*
  * Title: listInvoices.js Serverless Lambda
- * Unique Sowtware Development, LLC
+ * Unique Software Development, LLC
  * Author David P. Lopez
  * Aprin 14, 2019
  *
