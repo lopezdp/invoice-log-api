@@ -41,6 +41,7 @@ export async function main(event, context) {
      *
      *    - 'invoiceID': a uuid that is unique to this record
      *    - 'createdAt': this is the current UNIX timestamp
+     *    - 'payerEmail': this is the email of the invoice Payer
      *    - 'description': this is the description of the
      *                     transaction as entered by the user
      *                     and parsed from the Request.body
@@ -61,6 +62,7 @@ export async function main(event, context) {
       userId: event.requestContext.identity.cognitoIdentityId,
       invoiceId: uuid.v1(),
       createdAt: Date.now(),
+      payerEmail: data.payerEmail,
       description: data.description,
       amount: data.amount,
       attachment: data.attachment
