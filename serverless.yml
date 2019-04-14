@@ -71,6 +71,17 @@ functions:
     warmup:
       enabled: true
 
+    handler: createInvoice.main
+    events:
+      - http:
+          path: invoices
+          method: post
+          cors: true
+    # Warmup can be applied to each lambda to override 
+    # settings in custom.warmup block globally.
+    warmup:
+      enabled: true
+
 
 
 
