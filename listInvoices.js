@@ -8,6 +8,11 @@
 
 import { success, failure } from "./libs/responseLib";
 
+// Discuss in tutorial the need for a Dynamo table
+// and a dynamo table implemented for each microservice
+// Implement service below
+import * as dynamoLib from "./libs/dynamoLib";
+
 export async function main(event, context) {
 
   const params = {
@@ -33,7 +38,7 @@ export async function main(event, context) {
   };
 
   try {
-    const result = await test.call("query", params);
+    const result = await dynamoLib.call("query", params);
     // return the matching list of invoices in response.body!
     return success(result.Items);
   } catch ( err ) {

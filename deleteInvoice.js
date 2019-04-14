@@ -8,6 +8,11 @@
 
 import { success, failure } from "./libs/responseLib";
 
+// Discuss in tutorial the need for a Dynamo table
+// and a dynamo table implemented for each microservice
+// Implement service below
+import * as dynamoLib from "./libs/dynamoLib";
+
 export async function main(event, context) {
   const params = {
     TableName: process.env.tableName,
@@ -26,7 +31,7 @@ export async function main(event, context) {
   };
 
   try {
-    const result = await test.call("delete", params);
+    const result = await dynamoLib.call("delete", params);
     return success({
       status: true
     });

@@ -10,6 +10,11 @@
 // exist and why they are used. (See create)
 import { success, failure } from "./libs/responseLib";
 
+// Discuss in tutorial the need for a Dynamo table
+// and a dynamo table implemented for each microservice
+// Implement service below
+import * as dynamoLib from "./libs/dynamoLib";
+
 export async function main(event, context) {
   // Request body is passed in as a JSON string in event.body!
   const data = JSON.parse(event.body);
@@ -33,7 +38,7 @@ export async function main(event, context) {
   };
 
   try {
-    const result = await test.call("get", params);
+    const result = await dynamoLib.call("get", params);
     if (result.Item) {
       //return the item that we retrieved
       return success(result.Item);

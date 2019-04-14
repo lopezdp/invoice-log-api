@@ -8,14 +8,14 @@
 
 // Step1: Discuss the uuid import and need for uuid
 import uuid from "uuid";
-// Step2: Discuss in tutorial why /lib and response-lib
+// Step2: Discuss in tutorial why /lib and responseLib
 // exist and why they are used.
 import { success, failure } from "./libs/responseLib";
 
 // Step3: Discuss in tutorial the need for a Dynamo table
 // and a dynamo table implemented for each microservice
 // Implement service below
-//import * as dynamoDbLib from "./libs/dynamodb-lib";
+import * as dynamoLib from "./libs/dynamoLib";
 
 export async function main(event, context) {
   // The request body is passed in as a JSON string
@@ -73,7 +73,7 @@ export async function main(event, context) {
     // need to implement and test!!!!
     // need a lib to make calls to aws dynamo
     // to persist data for new invoices created
-    await test.call("put", params);
+    await dynamoLib.call("put", params);
     return success(params.Item);
   } catch ( err ) {
     return failure({
