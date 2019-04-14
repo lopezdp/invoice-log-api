@@ -8,7 +8,7 @@
 
 // Step1: Discuss in tutorial why /lib and response-lib
 // exist and why they are used. (See create)
-import { success, failure } from "./libs/response-lib";
+import { success, failure } from "./libs/responseLib";
 
 export async function main(event, context) {
   // Request body is passed in as a JSON string in event.body!

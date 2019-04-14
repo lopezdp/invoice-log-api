@@ -6,7 +6,7 @@
  *
  */
 
-import { success, failure } from "./libs/response-lib";
+import { success, failure } from "./libs/responseLib";
 
 export async function main(event, context) {
   const params = {

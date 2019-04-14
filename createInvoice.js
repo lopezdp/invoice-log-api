@@ -10,7 +10,7 @@
 import uuid from "uuid";
 // Step2: Discuss in tutorial why /lib and response-lib
 // exist and why they are used.
-import { success, failure } from "./libs/response-lib";
+import { success, failure } from "./libs/responseLib";
 
 // Step3: Discuss in tutorial the need for a Dynamo table
 // and a dynamo table implemented for each microservice
