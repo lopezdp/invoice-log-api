@@ -77,10 +77,85 @@ functions:
           path: invoices
           method: post
           cors: true
+          authorizer: aws_iam
     # Warmup can be applied to each lambda to override 
     # settings in custom.warmup block globally.
     warmup:
       enabled: true
+
+    handler: getInvoice.main
+    events:
+      - http:
+          path: invoices/{id}
+          method: get
+          cors: true
+          authorizer: aws_iam
+    # Warmup can be applied to each lambda to override 
+    # settings in custom.warmup block globally.
+    warmup:
+      enabled: true
+
+    handler: deleteInvoice.main
+    events:
+      - http:
+          path: invoices/{id}
+          method: delete
+          cors: true
+          authorizer: aws_iam
+    # Warmup can be applied to each lambda to override 
+    # settings in custom.warmup block globally.
+    warmup:
+      enabled: true
+
+    handler: updateInvoice.main
+    events:
+      - http:
+          path: invoices/{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
+    # Warmup can be applied to each lambda to override 
+    # settings in custom.warmup block globally.
+    warmup:
+      enabled: true
+
+    handler: listInvoices.main
+    events:
+      - http:
+          path: invoices
+          method: get
+          cors: true
+          authorizer: aws_iam
+    # Warmup can be applied to each lambda to override 
+    # settings in custom.warmup block globally.
+    warmup:
+      enabled: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
