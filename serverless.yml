@@ -19,6 +19,11 @@ custom:
   # serverless commands. Or fallback to settings in provider section.
   stage: ${opt:stage, self:provider.stage}
   
+  # Set your table name as needed for local testing
+  tableName: ${self:custom.stage}-invoices
+
+
+
   # Load webpack config
   webpack:
     webpackConfig: ./webpack.config.js
@@ -130,6 +135,15 @@ functions:
     # settings in custom.warmup block globally.
     warmup:
       enabled: true
+
+# Keep resources modular and create each with separate CloudFormation templates
+resources:
+  # DynamoDB Services
+  - ${file(resources/GeneralLedgerTable.yml)}
+
+  # s3 future service
+
+  # Cognito future service
 
 
 
