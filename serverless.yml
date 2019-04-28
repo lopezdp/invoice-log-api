@@ -152,40 +152,9 @@ functions:
 
 # Keep resources modular and create each with separate CloudFormation templates
 resources:
-  # DynamoDB Services
+  # DynamoDB Service
   - ${file(resources/GeneralLedgerTable.yml)}
 
-  # s3 future service
-
-  # Cognito future service
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  # Cognito User-Pool Service
+  - ${file(resources/CognitoUserPool.yml)}
+  
