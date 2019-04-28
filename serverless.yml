@@ -22,8 +22,6 @@ custom:
   # Set your table name as needed for local testing
   tableName: ${self:custom.stage}-invoices
 
-
-
   # Load webpack config
   webpack:
     webpackConfig: ./webpack.config.js
@@ -54,8 +52,24 @@ provider:
   # Environment variables made available through process.env
   environment: 
     #### EXAMPLES
-    # tableName: ${self:custom.tableName}
+    tableName: ${self:custom.tableName}
     # stripePrivateKey: ${self:custom.environment.stripePrivateKey}
+
+  # These statements define the acceptable permission policy for our lambda functions
+  # In this case Lambda functions are give permission to access Dynamo
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      # Need to restrict IM Role to the specific table and stage
+      Resource: 
+        -"Fn::GetAtt": [ GeneralLedgerTable, Arn]
 
 functions:
   # Defines an HTTP API endpoint that calls the microServerless function in handler.js

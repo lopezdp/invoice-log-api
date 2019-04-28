@@ -1,0 +1,36 @@
+Resources:
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      # Dynamically create a name using the correct stage
+      # Make sure you differentiate from other apps on AWS!
+      UserPoolName: ${self:custom.stage}-InvoiceUserPool
+      # Set the alias using email address
+      UsernameAttributes:
+        - email
+      AutoVerificationAttributes:
+        - email
+
+  CognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      # Dynamically create the appClient name using the correct stage
+      # Make sure you differentiate from other apps on AWS!
+      ClientName: ${self:custom.stage}-PayMeUserPoolClient
+      UserPoolId:
+        Ref: CognitoUserPool
+      ExplicitAuthFlows:
+        - ADMIN_NO_SRP_AUTH
+      GenerateSecret: false
+
+# Output the ID of the user-pool
+Outputs:
+  UserPoolId:
+    Value:
+      Ref: CognitoUserPool
+
+  UserPoolClientId: 
+    Value:
+      Ref: CognitoUserPoolClient
+
+
