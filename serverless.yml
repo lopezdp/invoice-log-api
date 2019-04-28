@@ -155,6 +155,7 @@ resources:
   # DynamoDB Service
   - ${file(resources/GeneralLedgerTable.yml)}
 
-  # Cognito User-Pool Service
+  # Cognito User-Pool and Identity-Pool Services
   - ${file(resources/CognitoUserPool.yml)}
+  - ${file(resources/CognitoIdentityPool.yml)}
   
