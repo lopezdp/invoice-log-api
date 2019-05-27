@@ -45,7 +45,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs10.x
   stage: dev
   region: us-east-1
 
@@ -78,7 +78,7 @@ functions:
   # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
   #     domain api calls
   # - authorizer: authenticate using an AWS IAM Role
-  displayService:
+  createInvoice:
     handler: createInvoice.main
     events:
       - http:
@@ -91,6 +91,7 @@ functions:
     warmup:
       enabled: true
 
+  getInvoice:
     handler: getInvoice.main
     events:
       - http:
@@ -103,6 +104,7 @@ functions:
     warmup:
       enabled: true
 
+  deleteInvoice:
     handler: deleteInvoice.main
     events:
       - http:
@@ -115,6 +117,7 @@ functions:
     warmup:
       enabled: true
 
+  updateInvoice:
     handler: updateInvoice.main
     events:
       - http:
@@ -127,6 +130,7 @@ functions:
     warmup:
       enabled: true
 
+  listInvoices:
     handler: listInvoices.main
     events:
       - http:
