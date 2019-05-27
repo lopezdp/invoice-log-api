@@ -79,17 +79,6 @@ functions:
   #     domain api calls
   # - authorizer: authenticate using an AWS IAM Role
   displayService:
-    handler: handler.starterService
-    events:
-      - http:
-          path: starterService
-          method: get
-          cors: true
-    # Warmup can be applied to each lambda to override 
-    # settings in custom.warmup block globally.
-    warmup:
-      enabled: true
-
     handler: createInvoice.main
     events:
       - http:
