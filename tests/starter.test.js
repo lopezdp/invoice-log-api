@@ -6,12 +6,12 @@
  *
  */
 
-import * as handler from "../handler.js";
-
 // FIXME: Correct eslint `no-undef` errors
-test("starterService Execution", async () => {
+test("Serverless CodeBuild Execution", async () => {
   const event = "event";
   const context = "context";
+
+
   const callback = (error, response) => {
     expect(response.statusCode).toEqual(200);
     expect(typeof response.body).toBe("string");
