@@ -1,21 +1,21 @@
 Resources:
-  # This is the fed IdP that will auth with our user-pool
+  # This is the federated identity I need for the user pool
+  # to authenticate with
   CognitoIdentityPool:
     Type: AWS::Cognito::IdentityPool
     Properties:
-      # Dynamically create a name using the correct stage
-      # Make sure you differentiate from other apps on AWS!
-      IdentityPoolName: ${self:custom.stage}-InvoiceIdentityPool
-      # This will prevent unauthenticated access to platform
+      # Generate a name based on the stage of development
+      IdentityPoolName: ${self:custom.stage}InvoiceIdentityPool
+      # Prevent unauthenticated users from using app
       AllowUnauthenticatedIdentities: false
-      # Configure User Pool
+      # Link this to the user-pool created 
       CognitoIdentityProviders:
         - ClientId:
             Ref: CognitoUserPoolClient
           ProviderName:
-            Fn::GetAtt: [ "CognitoUserPool", "ProviderName" ]
+            Fn::GetAtt: ["CognitoUserPool", "ProviderName" ]
 
-  # IAM Role for user-pool
+  # IAM Roles
   CognitoIdentityPoolRoles:
     Type: AWS::Cognito::IdentityPoolRoleAttachment
     Properties:
@@ -25,19 +25,19 @@ Resources:
         authenticated:
           Fn::GetAtt: [CognitoAuthRole, Arn]
 
-  # IAM role for authentication of a user
+  # IAM role used for authenticated users
   CognitoAuthRole:
     Type: AWS::IAM::Role
     Properties:
       Path: /
-      AssumeRolePolicyDocument: 
+      AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
           - Effect: 'Allow'
             Principal:
               Federated: 'cognito-identity.amazonaws.com'
             Action:
-              - 'sts.AssumeRoleWithWebIdentity'
+              - 'sts:AssumeRoleWithWebIdentity'
             Condition:
               StringEquals:
                 'cognito-identity.amazonaws.com:aud':
@@ -56,7 +56,7 @@ Resources:
                   - 'cognito-identity:*'
                 Resource: '*'
 
-              # Users have permission to invoke API
+              # Allow users to invoke the QAT CRM API
               - Effect: 'Allow'
                 Action:
                   - 'execute-api:Invoke'
@@ -72,7 +72,8 @@ Resources:
                       - Ref: ApiGatewayRestApi
                       - '/*'
 
-              # Users have permission to upload to their folder in s3
+              # Allow users to upload attachments to their
+              # folder inside of the s3 bucket created
               - Effect: 'Allow'
                 Action:
                   - 's3:*'
@@ -81,12 +82,14 @@ Resources:
                     - ''
                     -
                       - Fn::GetAtt: [AttachmentsBucket, Arn]
-                      - '/PrivateDirectory/'
+                      - '/private/'
                       - '$'
                       - '{cognito-identity.amazonaws.com:sub}/*'
 
-# Output the ID of the identity-pool
+# Print out the Id of the identity pool that is created
 Outputs:
   IdentityPoolId:
     Value:
       Ref: CognitoIdentityPool
+
+

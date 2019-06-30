@@ -69,7 +69,7 @@ provider:
         - dynamodb:DeleteItem
       # Need to restrict IM Role to the specific table and stage
       Resource: 
-        -"Fn::GetAtt": [ GeneralLedgerTable, Arn]
+        - "Fn::GetAtt": [ GeneralLedger, Arn]
 
 functions:
   # Defines an HTTP API endpoint that calls the microServerless function in handler.js
@@ -151,4 +151,9 @@ resources:
   # Cognito User-Pool and Identity-Pool Services
   - ${file(resources/CognitoUserPool.yml)}
   - ${file(resources/CognitoIdentityPool.yml)}
+
+
+  # S3 Attachments Bucket
+  - ${file(resources/s3-attachments-bucket.yml)}
+
   
