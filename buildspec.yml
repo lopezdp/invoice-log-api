@@ -1,14 +1,16 @@
-version: 0.1
+# CI/CD buildspec.yml file for invoice-log service on dev
+version: 0.2
 phases:
   install:
-   commands:
-    - npm install -g serverless
-    - npm install
+    runtime-versions:
+      nodejs: 10
+    commands:
+      - cd services/invoice-log-api
+      - npm install -g serverless
+      - npm install
   build:
-   commands:
-    - serverless deploy --stage dev | tee deploy.out
-  post_build:
-   commands:
-    - npm test
-
-
+    commands:
+      - serverless deploy -v --stage dev | tee deploy.out
+  #post_build:
+    #commands:
+      #- npm test
