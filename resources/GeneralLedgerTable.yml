@@ -5,6 +5,7 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: ${self:custom.tableName}
+      BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: userId
           AttributeType: S
@@ -16,7 +17,6 @@ Resources:
         - AttributeName: invoiceId
           KeyType: RANGE
       # Set the capacity based on the stage
-      ProvisionedThroughput:
+      #ProvisionedThroughput:
         # ReadCapacityUnits: ${self:custom.tableThroughput}
         # WriteCapacityUnits: ${self:custom.tableThroughput}
-        BillingMode: PAY_PER_REQUEST
