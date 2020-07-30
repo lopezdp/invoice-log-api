@@ -10,7 +10,6 @@ phases:
       - npm install
   build:
     commands:
-      - cd
       - serverless deploy -v --stage dev | tee deploy.out
   #post_build:
   #commands:
