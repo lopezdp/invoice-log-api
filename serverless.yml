@@ -47,6 +47,11 @@ provider:
   runtime: nodejs10.x
   stage: dev
   region: us-east-1
+  tags:
+    PROJECT_OWNER: native-stack
+    PROJECT_ENGINEER: lopezdp
+  stackTags:
+    PROJECT_RESOURCE: b2b-wallet
 
   # Environment variables made available through process.env
   environment:
@@ -79,6 +84,12 @@ functions:
   # - authorizer: authenticate using an AWS IAM Role
   createInvoice:
     handler: createInvoice.main
+    tags:
+      SERVICE: invoice-log-api
+      PUBLIC: true
+      TRIGGER1: gh-testing
+      PROJECT: mobile-wallet
+      FUNCTION: create-invoice
     events:
       - http:
           path: invoices
