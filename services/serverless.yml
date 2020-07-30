@@ -44,7 +44,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12
   stage: dev
   region: us-east-1
   tags:
