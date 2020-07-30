@@ -98,11 +98,17 @@ functions:
           authorizer: aws_iam
     # Warmup can be applied to each lambda to override
     # settings in custom.warmup block globally.
-    warmup:
-      enabled: true
+    #warmup:
+    #enabled: true
 
   getInvoice:
     handler: getInvoice.main
+    tags:
+      SERVICE: invoice-log-api
+      PUBLIC: true
+      TRIGGER1: gh-testing
+      PROJECT: mobile-wallet
+      FUNCTION: get-invoice
     events:
       - http:
           path: invoices/{id}
@@ -111,11 +117,17 @@ functions:
           authorizer: aws_iam
     # Warmup can be applied to each lambda to override
     # settings in custom.warmup block globally.
-    warmup:
-      enabled: true
+    #warmup:
+    #enabled: true
 
   deleteInvoice:
     handler: deleteInvoice.main
+    tags:
+      SERVICE: invoice-log-api
+      PUBLIC: true
+      TRIGGER1: gh-testing
+      PROJECT: mobile-wallet
+      FUNCTION: delete-invoice
     events:
       - http:
           path: invoices/{id}
@@ -124,11 +136,17 @@ functions:
           authorizer: aws_iam
     # Warmup can be applied to each lambda to override
     # settings in custom.warmup block globally.
-    warmup:
-      enabled: true
+    #warmup:
+    #enabled: true
 
   updateInvoice:
     handler: updateInvoice.main
+    tags:
+      SERVICE: invoice-log-api
+      PUBLIC: true
+      TRIGGER1: gh-testing
+      PROJECT: mobile-wallet
+      FUNCTION: update-invoice
     events:
       - http:
           path: invoices/{id}
@@ -137,11 +155,17 @@ functions:
           authorizer: aws_iam
     # Warmup can be applied to each lambda to override
     # settings in custom.warmup block globally.
-    warmup:
-      enabled: true
+    #warmup:
+    #enabled: true
 
   listInvoices:
     handler: listInvoices.main
+    tags:
+      SERVICE: invoice-log-api
+      PUBLIC: true
+      TRIGGER1: gh-testing
+      PROJECT: mobile-wallet
+      FUNCTION: list-invoices
     events:
       - http:
           path: invoices
@@ -150,8 +174,8 @@ functions:
           authorizer: aws_iam
     # Warmup can be applied to each lambda to override
     # settings in custom.warmup block globally.
-    warmup:
-      enabled: true
+    #warmup:
+    #enabled: true
 
 # Keep resources modular and create each with separate CloudFormation templates
 resources:
