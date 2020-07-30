@@ -1,0 +1,190 @@
+# NOTE: Update this with the SpectrumAPI service name
+# TODO: Read serverless.yml docs
+# TODO: https://serverless.com/framework/docs/providers/aws/guide/intro/
+
+# New service names create new projects in AWS once deployed
+service: invoice-log-api
+
+# Use the serverless-webpack plugin to transpile ES6
+# Using offline to mock & test locally
+# Use warmup to prevent Cold Starts
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  #- serverless-plugin-warmup
+
+# configure plugins declared above
+custom:
+  # Stages are based on what is passed into the CLI when running
+  # serverless commands. Or fallback to settings in provider section.
+  stage: ${opt:stage, self:provider.stage}
+
+  # Set your table name as needed for local testing
+  tableName: ${self:custom.stage}-invoices
+
+  # Load webpack config
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+  # ServerlessWarmup Configuration
+  # See configuration Options at:
+  # https://github.com/FidelLimited/serverless-plugin-warmup
+  #warmup:
+  #enabled: true # defaults to false
+  #folderName: '_warmup' # Name of folder generated for warmup
+  #memorySize: 256
+  #events:
+  # Run WarmUp every 720 minutes
+  #- schedule: rate(720 minutes)
+  #timeout: 20
+  # Load secret environment variables based on the current stage
+  # Fallback to default if it is not in PROD
+  # environment: ${file(env.yml):${self:custom.stage}, file(env.yml):default}
+
+provider:
+  name: aws
+  runtime: nodejs12
+  stage: dev
+  region: us-east-1
+  tags:
+    PROJECT_OWNER: native-stack
+    PROJECT_ENGINEER: lopezdp
+  stackTags:
+    PROJECT_RESOURCE: b2b-wallet
+
+  # Environment variables made available through process.env
+  environment:
+    #### EXAMPLES
+    tableName: ${self:custom.tableName}
+    # stripePrivateKey: ${self:custom.environment.stripePrivateKey}
+
+  # These statements define the acceptable permission policy for our lambda functions
+  # In this case Lambda functions are give permission to access Dynamo
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      # Need to restrict IM Role to the specific table and stage
+      Resource:
+        - "Fn::GetAtt": [GeneralLedger, Arn]
+
+functions:
+  # Defines an HTTP API endpoint that calls the microServerless function in handler.js
+  # - path: url path is /microServerless
+  # - method: GET request
+  # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
+  #     domain api calls
+  # - authorizer: authenticate using an AWS IAM Role
+  createInvoice:
+    handler: createInvoice.main
+    tags:
+      SERVICE: invoice-log-api
+      PUBLIC: true
+      TRIGGER1: gh-testing
+      PROJECT: mobile-wallet
+      FUNCTION: create-invoice
+    events:
+      - http:
+          path: invoices
+          method: post
+          cors: true
+          authorizer: aws_iam
+    # Warmup can be applied to each lambda to override
+    # settings in custom.warmup block globally.
+    #warmup:
+    #enabled: true
+
+  getInvoice:
+    handler: getInvoice.main
+    tags:
+      SERVICE: invoice-log-api
+      PUBLIC: true
+      TRIGGER1: gh-testing
+      PROJECT: mobile-wallet
+      FUNCTION: get-invoice
+    events:
+      - http:
+          path: invoices/{id}
+          method: get
+          cors: true
+          authorizer: aws_iam
+    # Warmup can be applied to each lambda to override
+    # settings in custom.warmup block globally.
+    #warmup:
+    #enabled: true
+
+  deleteInvoice:
+    handler: deleteInvoice.main
+    tags:
+      SERVICE: invoice-log-api
+      PUBLIC: true
+      TRIGGER1: gh-testing
+      PROJECT: mobile-wallet
+      FUNCTION: delete-invoice
+    events:
+      - http:
+          path: invoices/{id}
+          method: delete
+          cors: true
+          authorizer: aws_iam
+    # Warmup can be applied to each lambda to override
+    # settings in custom.warmup block globally.
+    #warmup:
+    #enabled: true
+
+  updateInvoice:
+    handler: updateInvoice.main
+    tags:
+      SERVICE: invoice-log-api
+      PUBLIC: true
+      TRIGGER1: gh-testing
+      PROJECT: mobile-wallet
+      FUNCTION: update-invoice
+    events:
+      - http:
+          path: invoices/{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
+    # Warmup can be applied to each lambda to override
+    # settings in custom.warmup block globally.
+    #warmup:
+    #enabled: true
+
+  listInvoices:
+    handler: listInvoices.main
+    tags:
+      SERVICE: invoice-log-api
+      PUBLIC: true
+      TRIGGER1: gh-testing
+      PROJECT: mobile-wallet
+      FUNCTION: list-invoices
+    events:
+      - http:
+          path: invoices
+          method: get
+          cors: true
+          authorizer: aws_iam
+    # Warmup can be applied to each lambda to override
+    # settings in custom.warmup block globally.
+    #warmup:
+    #enabled: true
+
+# Keep resources modular and create each with separate CloudFormation templates
+resources:
+  # DynamoDB Service
+  - ${file(resources/GeneralLedgerTable.yml)}
+
+  # Cognito User-Pool and Identity-Pool Services
+  - ${file(resources/CognitoUserPool.yml)}
+  - ${file(resources/CognitoIdentityPool.yml)}
+
+  # S3 Attachments Bucket
+  - ${file(resources/s3-attachments-bucket.yml)}
