@@ -5,11 +5,12 @@ phases:
     runtime-versions:
       nodejs: 10
     commands:
+      - cd
       - npm install -g serverless
       - npm install
   build:
     commands:
       - serverless deploy -v --stage dev | tee deploy.out
   #post_build:
-    #commands:
-      #- npm test
+  #commands:
+  #- npm test
